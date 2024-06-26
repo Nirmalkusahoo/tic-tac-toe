@@ -1,13 +1,16 @@
 import {Component} from '@angular/core';
 import {SquareComponent} from "../square/square.component";
 import {CommonModule} from "@angular/common";
+import {MatButton} from "@angular/material/button";
+import {MatSnackBar, MatSnackBarRef} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-border',
   standalone: true,
   imports: [
     SquareComponent,
-    CommonModule
+    CommonModule,
+    MatButton
   ],
   templateUrl: './border.component.html',
   styleUrl: './border.component.css'
@@ -18,7 +21,7 @@ export class BorderComponent {
   public winner: string | null;
   public winnerFormat: number[][] = [];
 
-  constructor() {
+  constructor(private _snackBar: MatSnackBar) {
     this.init();
   }
 
@@ -58,9 +61,22 @@ export class BorderComponent {
     for (let i = 0; i < this.winnerFormat.length; i++) {
       const [a, b, c] = this.winnerFormat[i];
       if (this.boxes[a] && this.boxes[a] == this.boxes[b] && this.boxes[a] == this.boxes[c]) {
+        this.openSnackBar(this.boxes[a])
         return this.boxes[a]
       }
     }
     return null;
+  }
+
+  openSnackBar(winner: string): MatSnackBarRef<any> {
+    const snackBarRef = this._snackBar.open('Game Over. Winner is ' + winner, 'New Game', {
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      duration: 5000
+    });
+    snackBarRef.onAction().subscribe((value) => {
+      this.newGame();
+    })
+    return snackBarRef;
   }
 }

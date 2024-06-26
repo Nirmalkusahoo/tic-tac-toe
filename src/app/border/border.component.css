@@ -14,3 +14,8 @@
   border: black 1px solid;
   border-radius: 4px;
 }
+button{
+  width: 150px;
+  height: 162px;
+  margin: 20px 0;
+}
