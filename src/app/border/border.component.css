@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 400px;
+  height: 400px;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  width: 306px;
+  height: 306px;
+  border: black 1px solid;
+  border-radius: 4px;
+}

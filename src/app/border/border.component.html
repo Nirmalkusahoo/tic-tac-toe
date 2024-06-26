@@ -1,1 +1,10 @@
-<p>border works!</p>
+<div class="container">
+  <h1>Player {{player}} turn.</h1>
+  <h1>Winner is {{winner}}</h1>
+  <button (click)="newGame()">New Game</button>
+  <div class="box">
+    <app-square *ngFor="let box of boxes;let i = index" (click)="putValue(i)" [value]="box" ></app-square>
+  </div>
+
+</div>
+
