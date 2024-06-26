@@ -20,6 +20,7 @@ export class BorderComponent {
   public xIsNext: boolean = true;
   public winner: string | null;
   public winnerFormat: number[][] = [];
+  public count: number = 0;
 
   constructor(private _snackBar: MatSnackBar) {
     this.init();
@@ -47,12 +48,14 @@ export class BorderComponent {
     this.boxes = Array(9).fill(null);
     this.winner = null;
     this.xIsNext = true;
+    this.count = 0;
   }
 
   public putValue(i: number) {
     if (!this.boxes[i]) {
       this.boxes.splice(i, 1, this.player);
       this.xIsNext = !this.xIsNext;
+      this.count++;
     }
     this.winner = this.checkForWinner();
   }
@@ -61,15 +64,18 @@ export class BorderComponent {
     for (let i = 0; i < this.winnerFormat.length; i++) {
       const [a, b, c] = this.winnerFormat[i];
       if (this.boxes[a] && this.boxes[a] == this.boxes[b] && this.boxes[a] == this.boxes[c]) {
-        this.openSnackBar(this.boxes[a])
+        this.openSnackBar(this.boxes[a], 'Game Over. Winner is ')
         return this.boxes[a]
       }
+    }
+    if (this.count == 9) {
+      this.openSnackBar('', 'Game Over.')
     }
     return null;
   }
 
-  openSnackBar(winner: string): MatSnackBarRef<any> {
-    const snackBarRef = this._snackBar.open('Game Over. Winner is ' + winner, 'New Game', {
+  openSnackBar(winner: string, message: string): MatSnackBarRef<any> {
+    const snackBarRef = this._snackBar.open(message + winner, 'New Game', {
       horizontalPosition: 'right',
       verticalPosition: 'top',
       duration: 5000
@@ -79,4 +85,5 @@ export class BorderComponent {
     })
     return snackBarRef;
   }
+
 }
